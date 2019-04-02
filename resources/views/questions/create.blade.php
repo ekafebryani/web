@@ -20,7 +20,7 @@
                     @csrf
                     <div class="form-grup">
                       <label for="question-title">Question Title</label>
-                      <input type="text" name="title" id="question-title" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}">
+                      <input type="text" name="title" value="{{ old('title') }}" id="question-title" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}">
 
                       @if ($errors->has('title'))
                           <div class="invalid-feedback">
@@ -40,6 +40,7 @@
                     </div>
                     <div class="form-group">
                       <button type="submit" class="btn btn-outline-primary btn-lg">Ask this question</button>
+                    </div>
                   </form>
                 </div>
             </div>
