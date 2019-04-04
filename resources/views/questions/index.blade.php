@@ -24,7 +24,7 @@
                           <strong>{{ $question->votes }}</strong> {{ str_plural('vote', $question->votes) }}
                         </div>
                         <div class="status {{ $question->status }}">
-                          <strong>{{ $question->answers }}</strong> {{ str_plural('answer', $question->answers) }}
+                          <strong>{{ $question->answers }}</strong> {{ str_plural('anwer', $question->answers) }}
                         </div>
                         <div class="view">
                           {{ $question->views . " " . str_plural('view', $question->views) }}
@@ -32,13 +32,19 @@
                       </div>
                         <div class="media-body">
                           <div class="d-flex align-items-center">
-                          <h3 class="mt-0"><a href="{{ $question->url}}">{{ $question->title }}</a></h3>
-                          <div class="ml-auto">
-                            <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">Edit</a>
+                            <h3 class="mt-0"><a href="{{ $question->url}}">{{ $question->title }}</a></h3>
+                            <div class="ml-auto">
+                              @if (Auth::user()->can('delete-question', $question))
+                            <a href="{{ route ('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">Edit</a>
+                            @endif
+
+                            @if (Auth::user()->can('update-question', $question))
                             <form class="form-delete" method="post" action="{{ route('questions.destroy', $question->id) }}">
                               @method('DELETE')
                               @csrf
-                              <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                              <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are You sure?')">Delete</button>
+                            </form>
+                            @endif
                             </div>
                             </div>
                             <p class="lead">
@@ -49,9 +55,8 @@
                             {{ str_limit($question->body, 250) }}
                         </div>
                     </div>
-                    <hr>
+<hr>
                     @endforeach
-
                     <div class="mx-auto">
                       {{ $questions->links() }}
                     </div>
